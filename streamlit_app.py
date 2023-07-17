@@ -3,10 +3,9 @@ import altair as alt
 import math
 import pandas as pd
 
-import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
-from vega_datasets import data
+# from vega_datasets import data
 
 """
 # Welcome to Streamlit!
