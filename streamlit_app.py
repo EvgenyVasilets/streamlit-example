@@ -71,9 +71,25 @@ data.created = data.created.astype('datetime64[ns]')
 data.resolved = data.resolved.astype('datetime64[ns]')
 data.first_reply = data.first_reply.astype('datetime64[ns]')
 
+data['date_created'] = data['created'].dt.date
+
 issue_columns = ['issue_1', 'issue_2', 'issue_3', 'issue_4']
 data[issue_columns] = data['issue_type'].str.split(' :: ', expand=True)
 for c in issue_columns:
     data[c] = data[c].str.strip()
 
-number = st.slider("Pick a number", 0, 100)
+df = data.groupby(['region', 'tier'])['ticket_id'].count().reset_index(drop = False)
+
+# chart_data = pd.DataFrame(
+#     np.random.randn(20, 3),
+#     columns=['a', 'b', 'c'])
+
+c = alt.Chart(df).mark_circle().encode(
+    x='tier',
+    y='ticket_id'
+    # size='c',
+    # color='c',
+    # tooltip=['a', 'b', 'c']
+)
+
+st.altair_chart(c, use_container_width=True)
